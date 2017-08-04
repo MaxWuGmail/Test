@@ -1,0 +1,5 @@
+input_date=89%2F01%2F04&select2=19&login_btn=+%ACd%B8%DF+
+
+convert BIG5 to UTF-8
+iconv -f big5 -t utf8 [FileName]
+

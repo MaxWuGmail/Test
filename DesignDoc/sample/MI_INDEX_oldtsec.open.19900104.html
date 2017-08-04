@@ -1,0 +1,242 @@
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5">
+<script language="javascript">
+	function CT(obj,obj2)
+	{
+		obj.value='';
+		obj2.focus();
+	}
+
+function KeyinSTKNO(obj)
+{
+   if(!obj.value&&event.keyCode==32)
+		return false;
+	else if (event.keyCode == 47) // slash
+		return false;
+	else if ((event.keyCode >= 48) && (event.keyCode <= 57))    //digit
+		return true;
+	else if ((event.keyCode >= 65) && (event.keyCode <= 90))    //A-Z
+		return true;
+	else if ((event.keyCode >= 97) && (event.keyCode <= 122))    //a-z
+		return true;
+	else 
+		return false;
+} // end of KeyinSTKNO()
+
+
+var NowYY, NowMM, NowDD;
+
+function getCurrentDay()
+{
+	var today = new Date();
+
+	//var temp;
+	//temp = today.toGMTString();
+	//alert (temp);
+	NowYY=today.getYear()-1911;
+	NowMM=today.getMonth()+1;
+	NowDD=today.getDate();
+	dateStr = NowYY + "/";
+	if (NowMM <= 9)
+	   dateStr = dateStr + "0";
+	dateStr = dateStr + NowMM + "/";
+	if (NowDD <= 9)
+	   dateStr = dateStr + "0";
+	dateStr = dateStr + NowDD;
+	document.all.input_date.value = dateStr;
+}
+
+function check_send()
+{
+    var i;
+
+    // max user login name 9 char, min user password 5 char
+    // use compare use only < or >, no <= or >=
+    var max_login_len=10;
+    var min_pass_len=5;
+    var max_pass_len=9;
+    var max_ascii_value = 128;  // ignor basic latin and latin-1 supplement characters
+    var doubleByteValue;
+    var actual_length=0;
+
+    //check for empty data
+    if(document.login_form.input_date.value == "")
+    {
+      alert("請輸入日期");
+      return false;
+    }
+
+    return true;
+}
+
+function KeyinDate(obj)
+{
+
+   if(!obj.value&&event.keyCode==32)
+		return false;
+	else if (event.keyCode == 47) // slash
+		return true;
+	else if ((event.keyCode >= 48) && (event.keyCode <= 57))    //digit
+		return true;
+	else 
+		return false;
+} // end of KeyinDate()
+
+function checkDate()
+{
+
+	str_date = String(date_form.input_date.value);
+   
+   var i=0, firsti=0, lasti=0, j=0;
+   var tmp;
+   var tmp_date = new Array();
+   tmp_date[0]="00";
+   tmp_date[1]="00";
+   tmp_date[2]="00";
+   
+   while (i<str_date.length)
+   {
+   	tmp=str_date.charAt(i);
+   	i++;
+   	if (tmp=="/")
+   	{
+   		lasti=i-1;
+   		tmp_date[j]=str_date.substring(firsti, lasti);
+   		j++;
+   		firsti=i;
+   	}	
+   }
+
+   tmp_date[j]=str_date.substring(firsti, str_date.length);
+ 	//alert(str_date);
+ 	
+   var_year = parseInt(tmp_date[0],10);
+   var_month = parseInt(tmp_date[1],10);
+   var_day = parseInt(tmp_date[2],10);
+ 	
+ 	   
+   if (var_year < 60 || var_year > 120)
+   {
+   	alert("輸入錯誤(年):範例:93/12/02");
+      return false;
+   }
+   if (var_month <= 0 || var_month > 12)
+   {
+   	alert("輸入錯誤(月):輸入範例:93/12/02");
+      return false;
+   }
+   if (var_day <= 0 || var_day > 31)
+   {
+   	alert("輸入錯誤(日):輸入範例:93/12/02");
+      return false;
+   }
+   // Check Day31 for month 4,6,9,11
+   if ((var_day == 31) && (var_month == 4 || var_month == 6 || var_month==9 || var_month==11))
+   {
+   	alert("查無輸入日期");
+      return false;
+   }
+   // Check Leap year for Feb
+   if ((var_day == 31 || var_day == 30) && (var_month == 2))
+   {
+   	alert("查無輸入日期");
+      return false;
+   }
+   if ((var_day == 29) && (var_month == 2))
+   {
+      var_year2 = var_year+1911;
+      if ( ((var_year2 % 400)==0) ||((var_year2 % 4)==0) && ((var_year2 % 100)!=0) )
+         ;
+      else
+      {
+      	alert("查無輸入日期");
+         return false;
+      }
+   }
+
+   dateStr = var_year + "/";
+   if (var_month <= 9)
+      dateStr = dateStr + "0";
+   dateStr = dateStr + var_month + "/";
+   if (var_day <= 9)
+      dateStr = dateStr + "0";
+   dateStr = dateStr + var_day;
+   document.all.input_date.value = dateStr;
+   
+   //alert(str_date);
+   
+   return true;
+} // end of checkdate()
+
+function MM_openBrWindow(theURL,winName,features) 
+{ 
+	dateStr = showModalDialog("/ch/trading/inc/Calendar.htm","請選擇日期","dialogWidth:17em;dialogHeight:18em");
+	if (dateStr)
+		document.all.input_date.value = dateStr;
+}
+</script>
+<title>TWSE 臺灣證券交易所 ﹥交易資訊 ﹥盤後資訊 ﹥每日收盤行情</title>
+
+</head>
+
+
+<body>
+<style type="text/css">
+<!--
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+-->
+</style>
+<link href="/ch/css/style.css" rel="stylesheet" type="text/css">
+<link href="/ch/css/oldreport.css" rel="stylesheet" type="text/css">          
+			<table width='590' border='0' align='center' cellpadding='0' cellspacing='0'>
+              <!--<tr>
+                <td><div align='center'></div>
+                    <img src='/ch/trading/exchange/images/trading_pic.jpg' width='590' height='90'></td>
+              </tr>-->
+              <tr>
+                <td height='10'><div align='center'> </div></td>
+              </tr>
+              <tr>
+                <form name="date_form" method="post" onsubmit="return checkDate();" action='/ch/trading/exchange/MI_INDEX/MI_INDEX_oldtsec.php'><td><div align='center'>
+                    <table width='590' border='0' cellpadding='0' cellspacing='0'>
+                      <tr bgcolor='#EBDCC9'>
+                        <td height='40' class='basic2'><div align='right'><font size='2'>&#12288;資料日期：
+                                  <input type="text" class='board' name="input_date" maxlength="10" size="12" OnKeyPress="return KeyinDate(this);" value="89/01/04"> <img src="/ch/trading/images/data.gif" onClick="MM_openBrWindow('.html','輸入日期','width=230,height=220')" width="16" height="16" style="cursor:hand"> </font>
+								  <font size='2'>&#12288;分類項目：
+                                  <select name='select2' class='board'>
+									
+<option  selected  value='MS'>大盤統計資訊</option><option   value=''>全部</option><option   value='00'>基金</option><option   value='00P'>ETF</option><option   value='05'>認購權證</option><option   value='05P'>認售權證</option><option   value='11'>水泥工業</option><option   value='12'>食品工業</option><option   value='13'>塑膠工業</option><option   value='14'>紡織纖維</option><option   value='15'>電機機械</option><option   value='16'>電器電纜</option><option   value='17'>化學生技醫療</option><option   value='18'>玻璃陶瓷</option><option   value='19'>造紙工業</option><option  selected  value='20'>鋼鐵工業</option><option   value='21'>橡膠工業</option><option   value='22'>汽車工業</option><option   value='23'>電子工業</option><option   value='25'>建材營造</option><option   value='26'>運輸業</option><option   value='27'>觀光事業</option><option   value='28'>金融保險</option><option   value='29'>貿易百貨</option><option   value='91'>存託憑證</option><option   value='98'>綜合企業</option><option   value='99'>其他</option><option   value='CB'>可轉換公司債</option>                                  </select>
+                                  </font><font size='2'> &#12288;
+                                  <input name="login_btn" type="submit" value=" 查詢 " OnClick="return checkDate();">
+                              </font></div>
+							  </td>
+							  </tr>
+							  <tr>
+							  <td class='til_2' align=right>
+							  民國93年2月11日起之資料請回原網站查詢
+							  <!--&#12288;本資訊自民國-1911年0月0日起開始提供，民國89年1月1日至-1911年0月-1日資訊<a href="#" onClick="window.open('/ch/trading/exchange/MI_INDEX/MI_INDEX_oldtsec.php?input_date=89/01/04','','toolbar=no,location=no,menubar=no,status=no,directories=no,resizable=yes,scrollbars=yes');">由此查詢</a>-->
+								</td>
+                      </tr>
+                    </table>
+                </div></td></form>
+              </tr>
+              <tr>
+                <td height='10'><div align='center'></div></td>
+              </tr>
+            </table>
+        </div></td>
+      </tr>
+    </table>
+    <center>
+    <body><center><table border=1><tr class=AS1><th colspan=5><FONT class=AS11 size=2>89年01月04日每日收盤行情(鋼鐵工業) </FONT></th><th colspan=6 ><FONT class=AS11 size=2>價格(單位:新台幣元)</font></th><th colspan=2 ><FONT class=AS11 size=2>最後揭示</font></th><th  ><FONT class=AS11 size=2>本益比</font></th></tr><tr class=AS1><th><FONT class=AS12 size=2>證券<br>代號</th><th><FONT class=AS12 size=2>證券<br>名稱</th><th><FONT class=AS12 size=2>成交張數</th><th><FONT class=AS12 size=2>成交筆數</th><th><FONT class=AS12 size=2>成交金額</th><th><FONT class=AS12 size=2>開盤價</th><th><FONT class=AS12 size=2>最高價</th><th><FONT class=AS12 size=2>最低價</th><th><FONT class=AS12 size=2>收盤價</th><th><FONT class=AS12 size=2>+/-</th><th><FONT class=AS12 size=2>漲跌價</th><th><FONT class=AS12 size=2>委買價</th><th><FONT class=AS12 size=2>委賣價</th><td >&nbsp;</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2002</td><td >&nbsp;中鋼</td><td align=right><FONT class=AS22 size=2>     80,122</td><td align=right><FONT class=AS22 size=2>       10,099</td><td align=right><FONT class=AS22 size=2>     1,929,527,400</td><td align=right><FONT class=AS22 size=2>   23.60</td><td align=right><FONT class=AS22 size=2>   24.80</td><td align=right><FONT class=AS22 size=2>   23.30</td><td align=right><FONT class=AS22 size=2>   24.80</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    1.60</td><td align=right><FONT class=AS22 size=2>   24.80</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    16.10</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2002A</td><td >&nbsp;中鋼特</td><td align=right><FONT class=AS22 size=2>        112</td><td align=right><FONT class=AS22 size=2>           45</td><td align=right><FONT class=AS22 size=2>         2,654,600</td><td align=right><FONT class=AS22 size=2>   23.00</td><td align=right><FONT class=AS22 size=2>   24.50</td><td align=right><FONT class=AS22 size=2>   23.00</td><td align=right><FONT class=AS22 size=2>   24.50</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    1.50</td><td align=right><FONT class=AS22 size=2>   24.40</td><td align=right><FONT class=AS22 size=2>   24.50</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2005</td><td >&nbsp;友力</td><td align=right><FONT class=AS22 size=2>        216</td><td align=right><FONT class=AS22 size=2>           26</td><td align=right><FONT class=AS22 size=2>           635,100</td><td align=right><FONT class=AS22 size=2>    2.76</td><td align=right><FONT class=AS22 size=2>    2.95</td><td align=right><FONT class=AS22 size=2>    2.76</td><td align=right><FONT class=AS22 size=2>    2.76</td><td >&nbsp;</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    2.76</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2006</td><td >&nbsp;東鋼</td><td align=right><FONT class=AS22 size=2>     11,666</td><td align=right><FONT class=AS22 size=2>        1,787</td><td align=right><FONT class=AS22 size=2>       177,852,400</td><td align=right><FONT class=AS22 size=2>   15.50</td><td align=right><FONT class=AS22 size=2>   15.50</td><td align=right><FONT class=AS22 size=2>   14.90</td><td align=right><FONT class=AS22 size=2>   15.40</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.60</td><td align=right><FONT class=AS22 size=2>   15.30</td><td align=right><FONT class=AS22 size=2>   15.40</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2007</td><td >&nbsp;燁興</td><td align=right><FONT class=AS22 size=2>      1,908</td><td align=right><FONT class=AS22 size=2>          319</td><td align=right><FONT class=AS22 size=2>        15,778,850</td><td align=right><FONT class=AS22 size=2>    8.55</td><td align=right><FONT class=AS22 size=2>    8.55</td><td align=right><FONT class=AS22 size=2>    8.15</td><td align=right><FONT class=AS22 size=2>    8.20</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.15</td><td align=right><FONT class=AS22 size=2>    8.20</td><td align=right><FONT class=AS22 size=2>    8.25</td><td align=right><FONT class=AS22 size=2>     8.04</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2008</td><td >&nbsp;高興昌</td><td align=right><FONT class=AS22 size=2>      3,534</td><td align=right><FONT class=AS22 size=2>          208</td><td align=right><FONT class=AS22 size=2>        28,680,500</td><td align=right><FONT class=AS22 size=2>    8.20</td><td align=right><FONT class=AS22 size=2>    8.20</td><td align=right><FONT class=AS22 size=2>    7.90</td><td align=right><FONT class=AS22 size=2>    8.10</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.10</td><td align=right><FONT class=AS22 size=2>    8.05</td><td align=right><FONT class=AS22 size=2>    8.10</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2009</td><td >&nbsp;第一</td><td align=right><FONT class=AS22 size=2>      1,768</td><td align=right><FONT class=AS22 size=2>          328</td><td align=right><FONT class=AS22 size=2>        20,597,200</td><td align=right><FONT class=AS22 size=2>   11.65</td><td align=right><FONT class=AS22 size=2>   11.65</td><td align=right><FONT class=AS22 size=2>   11.65</td><td align=right><FONT class=AS22 size=2>   11.65</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.75</td><td align=right><FONT class=AS22 size=2>   11.65</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    10.59</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2010</td><td >&nbsp;春源</td><td align=right><FONT class=AS22 size=2>      2,697</td><td align=right><FONT class=AS22 size=2>          505</td><td align=right><FONT class=AS22 size=2>        36,557,600</td><td align=right><FONT class=AS22 size=2>   13.70</td><td align=right><FONT class=AS22 size=2>   13.70</td><td align=right><FONT class=AS22 size=2>   13.40</td><td align=right><FONT class=AS22 size=2>   13.65</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.25</td><td align=right><FONT class=AS22 size=2>   13.65</td><td align=right><FONT class=AS22 size=2>   13.70</td><td align=right><FONT class=AS22 size=2>    22.02</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2011</td><td >&nbsp;彥武</td><td align=right><FONT class=AS22 size=2>      1,633</td><td align=right><FONT class=AS22 size=2>          273</td><td align=right><FONT class=AS22 size=2>        11,073,850</td><td align=right><FONT class=AS22 size=2>    6.80</td><td align=right><FONT class=AS22 size=2>    6.90</td><td align=right><FONT class=AS22 size=2>    6.70</td><td align=right><FONT class=AS22 size=2>    6.90</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.20</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    6.90</td><td align=right><FONT class=AS22 size=2>    26.54</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2012</td><td >&nbsp;春雨</td><td align=right><FONT class=AS22 size=2>        475</td><td align=right><FONT class=AS22 size=2>           75</td><td align=right><FONT class=AS22 size=2>         3,628,350</td><td align=right><FONT class=AS22 size=2>    7.65</td><td align=right><FONT class=AS22 size=2>    7.80</td><td align=right><FONT class=AS22 size=2>    7.55</td><td align=right><FONT class=AS22 size=2>    7.60</td><td ><font color='#009900'>－</font></td><td align=right><FONT class=AS22 size=2>    0.10</td><td align=right><FONT class=AS22 size=2>    7.60</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2013</td><td >&nbsp;中鋼構</td><td align=right><FONT class=AS22 size=2>      6,125</td><td align=right><FONT class=AS22 size=2>        1,718</td><td align=right><FONT class=AS22 size=2>       188,904,000</td><td align=right><FONT class=AS22 size=2>   31.00</td><td align=right><FONT class=AS22 size=2>   31.50</td><td align=right><FONT class=AS22 size=2>   30.00</td><td align=right><FONT class=AS22 size=2>   31.40</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    1.20</td><td align=right><FONT class=AS22 size=2>   31.40</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    28.29</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2013A</td><td >&nbsp;中構特</td><td align=right><FONT class=AS22 size=2>         79</td><td align=right><FONT class=AS22 size=2>           32</td><td align=right><FONT class=AS22 size=2>         1,869,700</td><td align=right><FONT class=AS22 size=2>   23.20</td><td align=right><FONT class=AS22 size=2>   24.30</td><td align=right><FONT class=AS22 size=2>   23.20</td><td align=right><FONT class=AS22 size=2>   23.70</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.50</td><td align=right><FONT class=AS22 size=2>   23.80</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2014</td><td >&nbsp;燁隆</td><td align=right><FONT class=AS22 size=2>      7,125</td><td align=right><FONT class=AS22 size=2>          879</td><td align=right><FONT class=AS22 size=2>        61,482,250</td><td align=right><FONT class=AS22 size=2>    8.50</td><td align=right><FONT class=AS22 size=2>    8.80</td><td align=right><FONT class=AS22 size=2>    8.45</td><td align=right><FONT class=AS22 size=2>    8.80</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.35</td><td align=right><FONT class=AS22 size=2>    8.80</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2015</td><td >&nbsp;豐興</td><td align=right><FONT class=AS22 size=2>      2,758</td><td align=right><FONT class=AS22 size=2>          448</td><td align=right><FONT class=AS22 size=2>        35,999,500</td><td align=right><FONT class=AS22 size=2>   13.10</td><td align=right><FONT class=AS22 size=2>   13.30</td><td align=right><FONT class=AS22 size=2>   12.90</td><td align=right><FONT class=AS22 size=2>   13.15</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.10</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>   13.15</td><td align=right><FONT class=AS22 size=2>    69.21</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2016</td><td >&nbsp;名佳利</td><td align=right><FONT class=AS22 size=2>        478</td><td align=right><FONT class=AS22 size=2>          110</td><td align=right><FONT class=AS22 size=2>         2,000,610</td><td align=right><FONT class=AS22 size=2>    4.40</td><td align=right><FONT class=AS22 size=2>    4.40</td><td align=right><FONT class=AS22 size=2>    4.00</td><td align=right><FONT class=AS22 size=2>    4.29</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.02</td><td align=right><FONT class=AS22 size=2>    4.27</td><td align=right><FONT class=AS22 size=2>    4.29</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2017</td><td >&nbsp;嘉益</td><td align=right><FONT class=AS22 size=2>      4,762</td><td align=right><FONT class=AS22 size=2>          543</td><td align=right><FONT class=AS22 size=2>        31,170,450</td><td align=right><FONT class=AS22 size=2>    6.95</td><td align=right><FONT class=AS22 size=2>    6.95</td><td align=right><FONT class=AS22 size=2>    6.45</td><td align=right><FONT class=AS22 size=2>    6.70</td><td ><font color='#009900'>－</font></td><td align=right><FONT class=AS22 size=2>    0.20</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    6.60</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2017T</td><td >&nbsp;嘉益丙</td><td align=right><FONT class=AS22 size=2>          0</td><td align=right><FONT class=AS22 size=2>            0</td><td align=right><FONT class=AS22 size=2>                 0</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    0.00</td><td >&nbsp;</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    6.80</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2019</td><td >&nbsp;桂宏</td><td align=right><FONT class=AS22 size=2>      3,645</td><td align=right><FONT class=AS22 size=2>          522</td><td align=right><FONT class=AS22 size=2>        64,337,900</td><td align=right><FONT class=AS22 size=2>   17.60</td><td align=right><FONT class=AS22 size=2>   18.00</td><td align=right><FONT class=AS22 size=2>   17.20</td><td align=right><FONT class=AS22 size=2>   17.20</td><td ><font color='#009900'>－</font></td><td align=right><FONT class=AS22 size=2>    0.40</td><td align=right><FONT class=AS22 size=2>   17.20</td><td align=right><FONT class=AS22 size=2>   17.30</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2020</td><td >&nbsp;美亞</td><td align=right><FONT class=AS22 size=2>        129</td><td align=right><FONT class=AS22 size=2>           27</td><td align=right><FONT class=AS22 size=2>           807,500</td><td align=right><FONT class=AS22 size=2>    6.25</td><td align=right><FONT class=AS22 size=2>    6.40</td><td align=right><FONT class=AS22 size=2>    6.20</td><td align=right><FONT class=AS22 size=2>    6.25</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.05</td><td align=right><FONT class=AS22 size=2>    6.25</td><td align=right><FONT class=AS22 size=2>    6.30</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2022</td><td >&nbsp;聚亨</td><td align=right><FONT class=AS22 size=2>      4,670</td><td align=right><FONT class=AS22 size=2>          639</td><td align=right><FONT class=AS22 size=2>        24,920,150</td><td align=right><FONT class=AS22 size=2>    5.60</td><td align=right><FONT class=AS22 size=2>    5.60</td><td align=right><FONT class=AS22 size=2>    5.25</td><td align=right><FONT class=AS22 size=2>    5.25</td><td ><font color='#009900'>－</font></td><td align=right><FONT class=AS22 size=2>    0.35</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    5.25</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2023</td><td >&nbsp;燁輝</td><td align=right><FONT class=AS22 size=2>      7,877</td><td align=right><FONT class=AS22 size=2>        1,428</td><td align=right><FONT class=AS22 size=2>       124,899,900</td><td align=right><FONT class=AS22 size=2>   15.80</td><td align=right><FONT class=AS22 size=2>   16.20</td><td align=right><FONT class=AS22 size=2>   15.60</td><td align=right><FONT class=AS22 size=2>   16.10</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.60</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>   16.10</td><td align=right><FONT class=AS22 size=2>    13.09</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2024</td><td >&nbsp;志聯</td><td align=right><FONT class=AS22 size=2>        231</td><td align=right><FONT class=AS22 size=2>           53</td><td align=right><FONT class=AS22 size=2>         1,073,400</td><td align=right><FONT class=AS22 size=2>    4.85</td><td align=right><FONT class=AS22 size=2>    4.85</td><td align=right><FONT class=AS22 size=2>    4.50</td><td align=right><FONT class=AS22 size=2>    4.70</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.03</td><td align=right><FONT class=AS22 size=2>    4.68</td><td align=right><FONT class=AS22 size=2>    4.70</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2025</td><td >&nbsp;千興</td><td align=right><FONT class=AS22 size=2>      1,716</td><td align=right><FONT class=AS22 size=2>          389</td><td align=right><FONT class=AS22 size=2>        22,386,550</td><td align=right><FONT class=AS22 size=2>   13.45</td><td align=right><FONT class=AS22 size=2>   13.45</td><td align=right><FONT class=AS22 size=2>   12.80</td><td align=right><FONT class=AS22 size=2>   13.10</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.10</td><td align=right><FONT class=AS22 size=2>   13.15</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    22.59</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2027</td><td >&nbsp;大成鋼</td><td align=right><FONT class=AS22 size=2>        751</td><td align=right><FONT class=AS22 size=2>          169</td><td align=right><FONT class=AS22 size=2>        10,444,250</td><td align=right><FONT class=AS22 size=2>   14.00</td><td align=right><FONT class=AS22 size=2>   14.10</td><td align=right><FONT class=AS22 size=2>   13.80</td><td align=right><FONT class=AS22 size=2>   14.00</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.10</td><td align=right><FONT class=AS22 size=2>   13.90</td><td align=right><FONT class=AS22 size=2>   14.00</td><td align=right><FONT class=AS22 size=2>    29.79</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2028</td><td >&nbsp;威致</td><td align=right><FONT class=AS22 size=2>        804</td><td align=right><FONT class=AS22 size=2>          162</td><td align=right><FONT class=AS22 size=2>         4,682,250</td><td align=right><FONT class=AS22 size=2>    5.95</td><td align=right><FONT class=AS22 size=2>    6.00</td><td align=right><FONT class=AS22 size=2>    5.65</td><td align=right><FONT class=AS22 size=2>    5.95</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    0.05</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    5.95</td><td align=right><FONT class=AS22 size=2>     0.00</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2029</td><td >&nbsp;盛餘</td><td align=right><FONT class=AS22 size=2>      3,796</td><td align=right><FONT class=AS22 size=2>          926</td><td align=right><FONT class=AS22 size=2>        97,275,300</td><td align=right><FONT class=AS22 size=2>   25.50</td><td align=right><FONT class=AS22 size=2>   26.20</td><td align=right><FONT class=AS22 size=2>   25.10</td><td align=right><FONT class=AS22 size=2>   26.20</td><td ><font color='#FF0000'>＋</font></td><td align=right><FONT class=AS22 size=2>    1.00</td><td align=right><FONT class=AS22 size=2>   26.20</td><td align=right><FONT class=AS22 size=2>    0.00</td><td align=right><FONT class=AS22 size=2>    14.01</td></tr><tr><td class=AS2><FONT class=AS21 size=2>2030</td><td >&nbsp;彰源</td><td align=right><FONT class=AS22 size=2>        168</td><td align=right><FONT class=AS22 size=2>           44</td><td align=right><FONT class=AS22 size=2>         2,996,600</td><td align=right><FONT class=AS22 size=2>   18.00</td><td align=right><FONT class=AS22 size=2>   18.00</td><td align=right><FONT class=AS22 size=2>   17.50</td><td align=right><FONT class=AS22 size=2>   17.70</td><td ><font color='#009900'>－</font></td><td align=right><FONT class=AS22 size=2>    0.10</td><td align=right><FONT class=AS22 size=2>   17.70</td><td align=right><FONT class=AS22 size=2>   17.80</td><td align=right><FONT class=AS22 size=2>    15.13</td></tr><tr><th align=left colspan=14>漲跌符號說明:[+ ->漲][- ->跌][X ->不比價]<br>說明一:當證券代號為認購權證時本益比欄位置為結算價<br>說明二:當證券代號為外國股票時本益比欄位置為每交易單位所含股數</th></tr></table><br>    </center>                
+</body>
+
+</html>
