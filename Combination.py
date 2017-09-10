@@ -13,12 +13,26 @@ def func_c (n, r):
 #
 # Building cache first
 #
-for r_ in list(xrange(1,33)):
-  for n_ in list(xrange(r_,990)):
+for r_ in list(xrange(1,50)):
+  for n_ in list(xrange(r_,1000)):
 
     try:
       a = cache[(n_, r_)]
     except:
       cache[(n_, r_)] = func_c (n_, r_)
 
-print func_c (990, 33)
+def Combination (n, r):
+
+  a = 1
+  b = 1
+  c = 1
+  for idx in xrange(1, n + 1):
+    c = c * idx
+    if idx == r:
+      a = c
+    if idx == n - r:
+      b = c
+  return c / (a * b)
+
+print func_c (1000, 50)
+print Combination (1000, 50)
